@@ -24,7 +24,7 @@ cppyy.include('libsemigroups/libsemigroups.h')
 # cppyy.include('/Users/jdm/libsemigroups/src/libsemigroups.h')
 
 
-def Transf(images):
+def Transformation(images):
     out = cppyy.gbl.libsemigroups.Transf(len(images)).type(images)
     # out.__class__.__repr__ = lambda self: cppyy.gbl.std.to_string(self)
     return out
@@ -37,7 +37,7 @@ def PartialPerm(*args):
         return cppyy.gbl.libsemigroups.PPerm(args[2]).type(*args)
 
 
-def Perm(images):
+def Permutation(images):
     out = cppyy.gbl.libsemigroups.Perm(len(images)).type(images)
     # out.__class__.__repr__ = lambda self: cppyy.gbl.std.to_string(self)
     return out
