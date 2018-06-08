@@ -13,10 +13,15 @@ via cppyy:
 
 import cppyy
 from cppyy.gbl import std
+# This assumes that the header files are in the standard include path,
+# and that the libsemigroups dynamic library is in LD_LIBRARY_PATH
 cppyy.load_library('libsemigroups')
+cppyy.include('libsemigroups/libsemigroups.h')
+
+# Variants:
 # cppyy.include('/usr/local/include/libsemigroups/libsemigroups.h')
 # cppyy.include('~/anaconda/include/libsemigroups/libsemigroups.h')
-cppyy.include('/Users/jdm/libsemigroups/src/libsemigroups.h')
+# cppyy.include('/Users/jdm/libsemigroups/src/libsemigroups.h')
 
 
 def Transf(images):
