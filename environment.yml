@@ -1,0 +1,7 @@
+name: libsemigroups_cppyy
+channels:
+  - conda-forge
+dependencies:
+  - libsemigroups
+  - pip:
+      .
