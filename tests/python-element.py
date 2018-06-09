@@ -1,11 +1,5 @@
-import cppyy
 import libsemigroups_cppyy
-
-cppyy.include("python3.6m/Python.h")
-cppyy.include("./python_element.h")
-
-from cppyy.gbl import PythonElement
-from libsemigroups_cppyy import Semigroup
+from libsemigroups_cppyy import Semigroup, PythonElement
 
 sNone = PythonElement(None)
 s1 = PythonElement(1)
@@ -21,11 +15,14 @@ assert s.get_value() == 6 # Fails with Sage Integers
 S = Semigroup([s1])
 assert S.size() == 1
 
-S = Semigroup([PythonElement(-1), PythonElement(0)])
+S = Semigroup([-1, 0])
 assert S.size() == 3
 
 
-# With Sage
-G = IntegerModRing(2^32)
-S = Semigroup([PythonElement(G(2))])
-assert S.size() == 32L
+import sys
+if 'sage' in sys.modules:
+    G = IntegerModRing(2^32)
+    S = Semigroup([PythonElement(G(2))])
+    assert S.size() == 32
+else:
+    print("skipping sage specific tests")

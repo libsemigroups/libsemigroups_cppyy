@@ -17,11 +17,18 @@ from cppyy.gbl import std
 # and that the libsemigroups dynamic library is in LD_LIBRARY_PATH
 cppyy.load_library('libsemigroups')
 cppyy.include('libsemigroups/libsemigroups.h')
+cppyy.include("python3.6m/Python.h")
+cppyy.include(__file__[:-31]+"python_element.h")
 
 # Variants:
 # cppyy.include('/usr/local/include/libsemigroups/libsemigroups.h')
 # cppyy.include('~/anaconda/include/libsemigroups/libsemigroups.h')
 # cppyy.include('/Users/jdm/libsemigroups/src/libsemigroups.h')
+
+#import cppyy.gbl.libsemigroups
+#from cppyy.gbl.libsemigroups import PythonElement
+PythonElement = cppyy.gbl.libsemigroups.PythonElement
+CPPInstance = cppyy.gbl.libsemigroups.Element.__base__
 
 
 def Transformation(images):
@@ -58,7 +65,15 @@ def BMat(mat):
     out = cppyy.gbl.libsemigroups.BMat(len(mat)).type(out)
     return out
 
-
 def Semigroup(gens):
-    # TODO check gens consists of elements of the same type
-    return cppyy.gbl.libsemigroups.Semigroup(type(gens[0]))(gens)
+    if gens:
+       types =  { type(g) for g in gens }
+       if len(types) > 1:
+           raise ValueError("the generators are not all of the same type")
+       cls = types.pop()
+       if not issubclass(cls, CPPInstance):
+           cls = cppyy.gbl.libsemigroups.PythonElement
+           gens = tuple( cls(g) for g in gens )
+    else:
+        cls = "int"
+    return cppyy.gbl.libsemigroups.Semigroup(cls)(gens)
