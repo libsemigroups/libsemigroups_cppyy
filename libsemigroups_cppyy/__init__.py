@@ -25,10 +25,9 @@ cppyy.include(__file__[:-31]+"python_element.h")
 # cppyy.include('~/anaconda/include/libsemigroups/libsemigroups.h')
 # cppyy.include('/Users/jdm/libsemigroups/src/libsemigroups.h')
 
-#import cppyy.gbl.libsemigroups
-#from cppyy.gbl.libsemigroups import PythonElement
-PythonElement = cppyy.gbl.libsemigroups.PythonElement
 CPPInstance = cppyy.gbl.libsemigroups.Element.__base__
+
+from cppyy.gbl.libsemigroups import PBR, Bipartition, PythonElement
 
 
 def Transformation(images):
