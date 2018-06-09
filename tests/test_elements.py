@@ -201,12 +201,12 @@ class TestBipartition(unittest.TestCase):
 
 class TestBooleanMat(unittest.TestCase):
     def test_init(self):
-        BooleanMat([True, True], [False, False])
-        BooleanMat([False, True, True], [True, True, False],
-                   [False, False, False])
-        BooleanMat([True])
-        BooleanMat([True, False], [False, True])
-        BooleanMat([1, 0], [0, 0])
+        BooleanMat([[True, True], [False, False]])
+        BooleanMat([[False, True, True], [True, True, False],
+                    [False, False, False]])
+        BooleanMat([[True]])
+        BooleanMat([[True, False], [False, True]])
+        BooleanMat([[1, 0], [0, 0]])
 
     def test_init_fail(self):
         with self.assertRaises(TypeError):
@@ -216,39 +216,39 @@ class TestBooleanMat(unittest.TestCase):
         with self.assertRaises(TypeError):
             BooleanMat(26)
         with self.assertRaises(TypeError):
-            BooleanMat([1., 0.], [0., 1.])
+            BooleanMat([[1., 0.], [0., 1.]])
         with self.assertRaises(TypeError):
-            BooleanMat([True, False], ["i", range(10)])
+            BooleanMat([[True, False], ["i", range(10)]])
 
         with self.assertRaises(ValueError):
-            BooleanMat([True], [False])
+            BooleanMat([[True], [False]])
         with self.assertRaises(ValueError):
-            BooleanMat([True, False], [False, False], [True, True])
+            BooleanMat([[True, False], [False, False], [True, True]])
         with self.assertRaises(ValueError):
-            BooleanMat([True, True, False], [False, False])
+            BooleanMat([[True, True, False], [False, False]])
         with self.assertRaises(ValueError):
             BooleanMat()
 
     def test_richcmp(self):
-        self.assertEqual(BooleanMat([True, False], [False, True]),
-                         BooleanMat([True, False], [False, True]))
-        self.assertFalse(BooleanMat([True, False], [False, True]) !=
-                         BooleanMat([True, False], [False, True]))
-        self.assertFalse(BooleanMat([True, False], [False, True]) ==
-                         BooleanMat([False, False], [False, True]))
-        self.assertLess(BooleanMat([False]), BooleanMat([True]))
-        self.assertFalse(BooleanMat([False, True, True],
-                                    [True, True, False],
-                                    [False, False, False]) <
-                         BooleanMat([False, True, False],
-                                    [True, False, False],
-                                    [False, False, True]))
-        self.assertLessEqual(BooleanMat([False]), BooleanMat([False]))
-        self.assertGreater(BooleanMat([True, False], [False, True]),
-                           BooleanMat([True, False], [False, False]))
-        self.assertFalse(BooleanMat([True, False], [False, True]) >
-                         BooleanMat([True, False], [False, True]))
-        self.assertGreaterEqual(BooleanMat([False]), BooleanMat([False]))
+        self.assertEqual(BooleanMat([[True, False], [False, True]]),
+                         BooleanMat([[True, False], [False, True]]))
+        self.assertFalse(BooleanMat([[True, False], [False, True]]) !=
+                         BooleanMat([[True, False], [False, True]]))
+        self.assertFalse(BooleanMat([[True, False], [False, True]]) ==
+                         BooleanMat([[False, False], [False, True]]))
+        self.assertLess(BooleanMat([[False]]), BooleanMat([[True]]))
+        self.assertFalse(BooleanMat([[False, True, True],
+                                     [True, True, False],
+                                     [False, False, False]]) <
+                         BooleanMat([[False, True, False],
+                                     [True, False, False],
+                                     [False, False, True]]))
+        self.assertLessEqual(BooleanMat([[False]]), BooleanMat([[False]]))
+        self.assertGreater(BooleanMat([[True, False], [False, True]]),
+                           BooleanMat([[True, False], [False, False]]))
+        self.assertFalse(BooleanMat([[True, False], [False, True]]) >
+                         BooleanMat([[True, False], [False, True]]))
+        self.assertGreaterEqual(BooleanMat([[False]]), BooleanMat([[False]]))
 
         with self.assertRaises(TypeError):
             (Bipartition([1, -2], [-1, 2]) >=
@@ -260,118 +260,118 @@ class TestBooleanMat(unittest.TestCase):
             PartialPerm([0], [1], 2))
 
     def test_getitem(self):
-        self.assertEqual(BooleanMat([1, 0], [0, 0])[0], [1, 0])
-        self.assertEqual(BooleanMat([1, 0], [0, 0])[1], [0, 0])
+        self.assertEqual(BooleanMat([[1, 0], [0, 0]])[0], [1, 0])
+        self.assertEqual(BooleanMat([[1, 0], [0, 0]])[1], [0, 0])
 
         with self.assertRaises(IndexError):
-            BooleanMat([1, 0, 1], [1, 0, 0], [0, 1, 1])[3]
+            BooleanMat([[1, 0, 1], [1, 0, 0], [0, 1, 1]])[3]
 
     def test_mul(self):
-        (self.assertEqual(BooleanMat([True, False], [False, True]) *
-                          BooleanMat([False, False], [False, True]),
-                          BooleanMat([False, False], [False, True])))
-        self.assertEqual(BooleanMat([False]) * BooleanMat([True]),
-                         BooleanMat([False]))
-        (self.assertEqual(BooleanMat([False, True, True],
-                                     [True, True, False],
-                                     [False, False, False]) *
-                          BooleanMat([False, True, False],
-                                     [True, False, False],
-                                     [False, False, True]),
-                          BooleanMat([True, False, True],
-                                     [True, True, False],
-                                     [False, False, False])))
+        (self.assertEqual(BooleanMat([[True, False], [False, True]]) *
+                          BooleanMat([[False, False], [False, True]]),
+                          BooleanMat([[False, False], [False, True]])))
+        self.assertEqual(BooleanMat([[False]]) * BooleanMat([[True]]),
+                         BooleanMat([[False]]))
+        (self.assertEqual(BooleanMat([[False, True, True],
+                                      [True, True, False],
+                                      [False, False, False]]) *
+                          BooleanMat([[False, True, False],
+                                      [True, False, False],
+                                      [False, False, True]]),
+                          BooleanMat([[True, False, True],
+                                      [True, True, False],
+                                      [False, False, False]])))
 
         with self.assertRaises(TypeError):
-            BooleanMat([True, True], [False, False]) * Transformation([1, 1])
+            BooleanMat([[True, True], [False, False]]) * Transformation([1, 1])
         with self.assertRaises(TypeError):
-            BooleanMat([False, True, True],
-                       [True, True, False],
-                       [False, False, False]) * PartialPerm([0, 1], [1, 2], 3)
+            BooleanMat([[False, True, True],
+                        [True, True, False],
+                        [False, False, False]]) * PartialPerm([0, 1], [1, 2], 3)
         with self.assertRaises(TypeError):
-            BooleanMat([True]) * [True]
+            BooleanMat([[True]]) * [[True]]
         with self.assertRaises(TypeError):
-            BooleanMat([True, False], [False, True]) * Bipartition([1, 2], [-1], [-2])
+            BooleanMat([[True, False], [False, True]]) * Bipartition([1, 2], [-1], [-2])
 
         with self.assertRaises(ValueError):
-            (BooleanMat([False, True, True],
-                       [True, True, False],
-                       [False, False, False]) * 
-            BooleanMat([True, False], [False, True]))
+            (BooleanMat([[False, True, True],
+                         [True, True, False],
+                         [False, False, False]]) * 
+            BooleanMat([[True, False], [False, True]]))
 
     def test_pow(self):
-        self.assertEqual(BooleanMat([True, False], [False, True]) ** 30,
-                         BooleanMat([True, False], [False, True]))
-        self.assertEqual(BooleanMat([True, False], [True, True]) ** 7,
-                         BooleanMat([True, False], [True, True]))
-        self.assertEqual(BooleanMat([True]) ** 26, BooleanMat([True]))
+        self.assertEqual(BooleanMat([[True, False], [False, True]]) ** 30,
+                         BooleanMat([[True, False], [False, True]]))
+        self.assertEqual(BooleanMat([[True, False], [True, True]]) ** 7,
+                         BooleanMat([[True, False], [True, True]]))
+        self.assertEqual(BooleanMat([[True]]) ** 26, BooleanMat([True]))
 
         with self.assertRaises(TypeError):
-            BooleanMat([True, False], [True, True]) ** 'i'
+            BooleanMat([[True, False], [True, True]]) ** 'i'
         with self.assertRaises(TypeError):
-            BooleanMat([True]) ** range(10)
+            BooleanMat([[True]]) ** range(10)
         with self.assertRaises(TypeError):
-            BooleanMat([True]) ** BooleanMat([True])
+            BooleanMat([[True]]) ** BooleanMat([[True]])
 
-        self.assertEqual(BooleanMat([True, False], [True, True]) ** 0,
-                         BooleanMat([1, 0], [0, 1]))
+        self.assertEqual(BooleanMat([[True, False], [True, True]]) ** 0,
+                         BooleanMat([[1, 0], [0, 1]]))
         with self.assertRaises(ValueError):
-            BooleanMat([False, True, True],
-                       [True, True, False],
-                       [False, False, False]) ** -7
+            BooleanMat([[False, True, True],
+                        [True, True, False],
+                        [False, False, False]]) ** -7
 
     def test_dealloc(self):
-        A = BooleanMat([True, False], [True, True])
-        B = BooleanMat([False, False], [False, True])
+        A = BooleanMat([[True, False], [True, True]])
+        B = BooleanMat([[False, False], [False, True]])
         del A, B
         assert 'A' not in globals()
         assert 'B' not in globals()
 
     def test_degree(self):
-        self.assertEqual(BooleanMat([True, True], [False, False]).degree(), 2)
-        self.assertEqual(BooleanMat([False, True, True],
-                                    [True, True, False],
-                                    [False, False, False]).degree(), 3)
+        self.assertEqual(BooleanMat([[True, True], [False, False]]).degree(), 2)
+        self.assertEqual(BooleanMat([[False, True, True],
+                                     [True, True, False],
+                                     [False, False, False]]).degree(), 3)
         self.assertEqual(BooleanMat([True]).degree(), 1)
 
     def test_identity(self):
-        self.assertEqual(BooleanMat([True, True], [False, False]).identity(),
-                         BooleanMat([True, False], [False, True]))
-        self.assertEqual(BooleanMat([False, True, True],
-                                    [True, True, False],
-                                    [False, False, False]).identity(),
-                         BooleanMat([True, False, False],
-                                    [False, True, False],
-                                    [False, False, True]))
+        self.assertEqual(BooleanMat([[True, True], [False, False]]).identity(),
+                         BooleanMat([[True, False], [False, True]]))
+        self.assertEqual(BooleanMat([[False, True, True],
+                                     [True, True, False],
+                                     [False, False, False]]).identity(),
+                         BooleanMat([[True, False, False],
+                                     [False, True, False],
+                                     [False, False, True]]))
         self.assertEqual(BooleanMat([False]).identity(), BooleanMat([True]))
 
     def test_rows(self):
-        self.assertEqual(BooleanMat([True, True], [False, False]).rows(),
+        self.assertEqual(BooleanMat([[True, True], [False, False]]).rows(),
                          [[True, True], [False, False]])
-        self.assertEqual(BooleanMat([False, True, True],
-                                    [True, True, False],
-                                    [False, False, False]).rows(),
+        self.assertEqual(BooleanMat([[False, True, True],
+                                     [True, True, False],
+                                     [False, False, False]]).rows(),
                          [[False, True, True],
                           [True, True, False],
                           [False, False, False]])
-        self.assertEqual(BooleanMat([False]).rows(), [[False]])
-        self.assertEqual(BooleanMat([0, 0], [0, 0]).identity().rows(), [[1, 0], [0, 1]])
+        self.assertEqual(BooleanMat([[False]]).rows(), [[False]])
+        self.assertEqual(BooleanMat([[0, 0], [0, 0]]).identity().rows(), [[1, 0], [0, 1]])
 
     def test_repr(self):
-        self.assertEqual(eval(BooleanMat([True, True], [False, False]).__repr__()),
-                         BooleanMat([True, True], [False, False]))
-        self.assertEqual(eval(BooleanMat([False, True, True],
+        self.assertEqual(eval(BooleanMat([[True, True], [False, False]]).__repr__()),
+                         BooleanMat([[True, True], [False, False]]))
+        self.assertEqual(eval(BooleanMat([[False, True, True],
                                     [True, True, False],
-                                    [False, False, False]).__repr__()),
-                         BooleanMat([False, True, True],
-                                    [True, True, False],
-                                    [False, False, False]))
-        self.assertEqual(eval(BooleanMat([True, False, False],
+                                    [False, False, False]]).__repr__()),
+                         BooleanMat([[False, True, True],
+                                     [True, True, False],
+                                     [False, False, False]]))
+        self.assertEqual(eval(BooleanMat([[True, False, False],
                                     [False, True, False],
-                                    [False, False, True]).__repr__()),
-                         BooleanMat([True, False, False],
-                                    [False, True, False],
-                                    [False, False, True]))
+                                    [False, False, True]]).__repr__()),
+                         BooleanMat([[True, False, False],
+                                     [False, True, False],
+                                     [False, False, True]]))
 
 class TestPartialPerm(unittest.TestCase):
     def test_init(self):
@@ -381,21 +381,21 @@ class TestPartialPerm(unittest.TestCase):
                     [1, 2, 34, 23423, 233, 432, 26], 26260)
 
     def test_init_fail(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             PartialPerm([1, 3], [0, 1], 3)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             PartialPerm([1, 2], [3, 2], 3)
         with self.assertRaises(TypeError):
             PartialPerm([-2, 2], [0, 1], 3)
         with self.assertRaises(TypeError):
             PartialPerm([1, 2], [-1, 2], 3)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             PartialPerm([1, 2], [2, 2], 3)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             PartialPerm([1, 1], [0, 2], 3)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             PartialPerm([], [], -1)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             PartialPerm([1, 2], [0, 1, 2], 3)
 
         with self.assertRaises(TypeError):
@@ -708,9 +708,9 @@ class TestTransformation(unittest.TestCase):
         Transformation([9, 3, 1, 2, 0, 8, 1, 2, 0, 5])
 
     def test_init_fail(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             Transformation([1, 5, 26])
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             Transformation([1])
 
         with self.assertRaises(TypeError):

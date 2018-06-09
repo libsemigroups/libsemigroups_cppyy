@@ -42,14 +42,13 @@ def PartialPerm(*args):
     elif len(args) == 3:
         return cppyy.gbl.libsemigroups.PPerm(args[2]).type(*args)
 
-
 def Permutation(images):
     out = cppyy.gbl.libsemigroups.Perm(len(images)).type(images)
     # out.__class__.__repr__ = lambda self: cppyy.gbl.std.to_string(self)
     return out
 
 
-def BMat(mat):
+def BooleanMat(mat):
     if isinstance(mat, list) and all(isinstance(row, list) for row in mat):
         out = std.vector(std.vector("bool"))()
         for row in mat:
