@@ -12,4 +12,5 @@ setup(name='libsemigroups_cppyy',
       license='GPL3',
       install_requires=['cppyy'],
       packages=find_packages(exclude=['tests']),
+      tests_require=['nose'],
       zip_safe=False)
