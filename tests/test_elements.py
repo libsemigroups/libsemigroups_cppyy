@@ -1,13 +1,5 @@
 import unittest
-import sys
-import os
 from libsemigroups_cppyy import Bipartition, Transformation, PartialPerm, BooleanMat, PBR
-
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if not path in sys.path:
-    sys.path.insert(1, path)
-del path
-
 
 class TestBipartition(unittest.TestCase):
     def test_init(self):
