@@ -1,8 +1,8 @@
 import unittest
 import sys
 import os
-from semigroups import (Semigroup, Transformation, Bipartition,
-                        full_transformation_monoid, CayleyGraph)
+from libsemigroups_cppyy import (Semigroup, Transformation, Bipartition,
+                                 full_transformation_monoid, CayleyGraph)
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if path not in sys.path:

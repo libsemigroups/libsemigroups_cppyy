@@ -29,7 +29,6 @@ CPPInstance = cppyy.gbl.libsemigroups.Element.__base__
 
 from cppyy.gbl.libsemigroups import PBR, Bipartition, PythonElement
 
-
 def Transformation(images):
     out = cppyy.gbl.libsemigroups.Transf(len(images)).type(images)
     # out.__class__.__repr__ = lambda self: cppyy.gbl.std.to_string(self)
@@ -75,3 +74,8 @@ def Semigroup(gens):
     else:
         cls = "int"
     return cppyy.gbl.libsemigroups.Semigroup(cls)(gens)
+
+def full_transformation_monoid(n):
+    raise NotImplementedError()
+
+CayleyGraph=NotImplemented
