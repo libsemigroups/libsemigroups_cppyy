@@ -1,3 +1,5 @@
 *.pyc
 libsemigroups_cppyy.egg-info
 .ipynb_checkpoints
+.tox
+cppyy

@@ -1,35 +1,104 @@
-'''
+"""
 A minimal cppyy wrapper for the libsemigroups C++ library.
 
 This module contains some minimal wrapping code to interact with the
 libsemigroups C++ library:
 
-    https://github.com/james-d-mitchell/libsemigroups
+    https://github.com/libsemigroups/libsemigroups
 
 via cppyy:
 
     https://bitbucket.org/wlav/cppyy/
-'''
+
+For this to work, libsemigroups must be installed on your computer (i.e. the
+executables libsemigroups.0.dylib, libsemigroups.dylib, and libsemigroups.a
+must be somewhere on your computer where cppyy can load it). libsemigroups
+should have been compiled with HPCombi support disabled via the configuration
+flag --disable-hpcombi.
+"""
 
 import cppyy
 from cppyy.gbl import std
 
-# This assumes that the header files are in the standard include path,
+cppyy.add_include_path("/Users/jdm/libsemigroups/")
+cppyy.add_include_path("/Users/jdm/libsemigroups/include")
+cppyy.add_include_path("/Users/jdm/libsemigroups/extern/HPCombi/include")
+cppyy.add_include_path("/Users/jdm/libsemigroups/extern/HPCombi/include/fallback")
+cppyy.add_include_path("/Users/jdm/libsemigroups/extern/fmt-5.3.0/include")
 
-# and that the libsemigroups dynamic library is in LD_LIBRARY_PATH
-cppyy.include('/Users/jdm/libsemigroups/include/libsemigroups.hpp')
-#cppyy.load_library('libsemigroups')
-#cppyy.include('libsemigroups/libsemigroups.h')
-#cppyy.include("python3.6/Python.h")
-#cppyy.include("python2.7/Python.h")
-#cppyy.include("python_element.h")
+cppyy.load_library("libsemigroups")
+
+cppyy.cppdef("#define FMT_HEADER_ONLY")
+
+cppyy.include("bmat8.hpp")
+cppyy.include("element.hpp")
+cppyy.include("element-helper.hpp")
+cppyy.include("froidure-pin.hpp")
+
+cppyy.gbl
+cppyy.gbl.libsemigroups
+
+# TODO
+# 1. add operator** to BMat8
+# 2. add operator<= to BMat8
+# 3. add operator>= to BMat8
+
+# Unwrappers
+def __unwrap(type_nm, cpp_mem_fn, unwrap_fn):
+    pass
 
 
-# Variants:
-# cppyy.include('/usr/local/include/libsemigroups/libsemigroups.h')
-# cppyy.include('~/anaconda/include/libsemigroups/libsemigroups.h')
+# Adapters
 
-CPPInstance = cppyy.gbl.libsemigroups.Element.__base__
+from cppyy.gbl.libsemigroups import Degree
+from cppyy.gbl.libsemigroups import One
+
+
+def degree(x):
+    """
+    Returns the value of the libsemigroups adapter Degree for type(x) and x.
+    """
+    return Degree(type(x))()(x)
+
+
+def one(x):
+    """
+    Returns the value of the libsemigroups adapter One for type(x) and x.
+    """
+    return One(type(x))()(x)
+
+
+# Boolean matrices
+
+from cppyy.gbl.libsemigroups import BMat8
+from cppyy.gbl.libsemigroups import BMatHelper
+
+BMat8.__repr__ = lambda x: cppyy.gbl.libsemigroups.detail.to_string(x)
+BMat8._cpp_rows = BMat8.rows
+
+
+def __BMat8_rows(x):
+    return [bits(ord(y)) for y in x._cpp_rows()]
+
+
+BMat8.rows = __BMat8_rows
+
+
+def BooleanMat(mat):
+    out = std.vector(std.vector("bool"))()
+    for row in mat:
+        v = std.vector("bool")()
+        for x in row:
+            v.push_back(x)
+        out.push_back(v)
+    return cppyy.gbl.libsemigroups.BMatHelper(len(mat)).type(out)
+
+
+def bits(n):
+    return [int(digit) for digit in format(n, "#010b")[2:]]
+
+
+# Untested
 
 
 def Transformation(images):
@@ -51,44 +120,18 @@ def Permutation(images):
     return out
 
 
-def BooleanMat(mat):
-    if isinstance(mat, list) and all(isinstance(row, list) for row in mat):
-        out = std.vector(std.vector("bool"))()
-        for row in mat:
-            v = std.vector("bool")()
-            for x in row:
-                assert isinstance(x, int)
-                v.push_back(x)
-            out.push_back(v)
-    else:
-        raise ValueError("mat must be a list of lists")
-
-    out = cppyy.gbl.libsemigroups.BMat(len(mat)).type(out)
-    return out
-
-
-def Semigroup(gens):
+def FroidurePin(gens):
     if gens:
         types = {type(g) for g in gens}
         if len(types) > 1:
             raise ValueError("the generators are not all of the same type")
         cls = types.pop()
-        if not issubclass(cls, CPPInstance):
-            cls = cppyy.gbl.libsemigroups.PythonElement
-            gens = tuple(cls(g) for g in gens)
-    else:
-        cls = "int"
-    return cppyy.gbl.libsemigroups.Semigroup(cls)(gens)
+        return cppyy.gbl.libsemigroups.FroidurePin(cls)(gens)
 
 
-def full_transformation_monoid(n):
-    raise NotImplementedError()
-
-CayleyGraph=NotImplemented
-
-from cppyy.gbl.libsemigroups import PBR, Bipartition, RWS
-
-def rules(rws):
-    if not isinstance(rws, cppyy.gbl.libsemigroups.RWS):
-        raise TypeError()
-    return [list(x) for x in rws.rules()]
+# from cppyy.gbl.libsemigroups import PBR, Bipartition, RWS
+#
+# def rules(rws):
+#     if not isinstance(rws, cppyy.gbl.libsemigroups.RWS):
+#         raise TypeError()
+#     return [list(x) for x in rws.rules()]
