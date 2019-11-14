@@ -45,27 +45,59 @@ cppyy.gbl.libsemigroups
 
 # Unwrappers
 def __unwrap(type_nm, cpp_mem_fn, unwrap_fn):
-    pass
+    actual = "__" + type_nm.__name__ + "_" + cpp_mem_fn.__name__
+    setattr(type_nm, actual, cpp_mem_fn)
+    actual = getattr(type_nm, actual)
+    setattr(type_nm, cpp_mem_fn.__name__, lambda *args: unwrap_fn(actual(*args)))
+
+
+def __generic_pow(self, n):
+    message = "the argument (power) must be a non-negative integer"
+    if not isinstance(n, int):
+        raise TypeError(message)
+    elif n < 0:
+        raise ValueError(message)
+
+    if n == 0:
+        return One(self)
+    g = self
+    if n % 2 == 1:
+        x = self  # x = x * g
+    else:
+        x = One(self)
+    while n > 1:
+        g *= g
+        n //= 2
+        if n % 2 == 1:
+            x *= g
+    return x
 
 
 # Adapters
 
-from cppyy.gbl.libsemigroups import Degree
-from cppyy.gbl.libsemigroups import One
 
-
-def degree(x):
+def Degree(x):
     """
     Returns the value of the libsemigroups adapter Degree for type(x) and x.
     """
-    return Degree(type(x))()(x)
+    return cppyy.gbl.libsemigroups.Degree(type(x))()(x)
 
 
-def one(x):
+def One(x):
     """
     Returns the value of the libsemigroups adapter One for type(x) and x.
     """
-    return One(type(x))()(x)
+    return cppyy.gbl.libsemigroups.One(type(x))()(x)
+
+
+def Product(x, y):
+    """
+    Returns the value of the libsemigroups adapter Product for type(x), x, and
+    y.
+    """
+    xy = One(x)
+    cppyy.gbl.libsemigroups.Product(type(x))()(xy, x, y)
+    return xy
 
 
 # Boolean matrices
@@ -73,15 +105,13 @@ def one(x):
 from cppyy.gbl.libsemigroups import BMat8
 from cppyy.gbl.libsemigroups import BMatHelper
 
+
+def __bits(n):
+    return [int(digit) for digit in format(n, "#010b")[2:]]
+
+
 BMat8.__repr__ = lambda x: cppyy.gbl.libsemigroups.detail.to_string(x)
-BMat8._cpp_rows = BMat8.rows
-
-
-def __BMat8_rows(x):
-    return [bits(ord(y)) for y in x._cpp_rows()]
-
-
-BMat8.rows = __BMat8_rows
+__unwrap(BMat8, BMat8.rows, lambda x: [__bits(ord(y)) for y in x])
 
 
 def BooleanMat(mat):
@@ -91,11 +121,34 @@ def BooleanMat(mat):
         for x in row:
             v.push_back(x)
         out.push_back(v)
-    return cppyy.gbl.libsemigroups.BMatHelper(len(mat)).type(out)
+    bmat_type = cppyy.gbl.libsemigroups.BMatHelper(len(mat)).type
+    bmat_type.__pow__ = __generic_pow
+    return bmat_type(out)
 
 
-def bits(n):
-    return [int(digit) for digit in format(n, "#010b")[2:]]
+# Partial perms
+
+
+def PartialPerm(*args):
+    if len(args) == 1:
+        pperm_type = cppyy.gbl.libsemigroups.PPermHelper(len(args[0])).type
+        ret = pperm_type(args[0])
+    elif len(args) == 3:
+        if not isinstance(args[2], int):
+            raise TypeError("the third parameter must be an integer")
+        pperm_type = cppyy.gbl.libsemigroups.PPermHelper(args[2]).type
+        ret = pperm_type(*args)
+    pperm_type.__pow__ = __generic_pow
+    pperm_type.__mul__ = lambda self, other: Product(self, other)
+    pperm_type.dom = lambda x: [y for y in range(Degree(x)) if ord(x[y]) != 255]
+    pperm_type.ran = lambda x: [ord(x[y]) for y in range(Degree(x)) if ord(x[y]) != 255]
+    pperm_type.__repr__ = lambda x: "PartialPerm(%s, %s, %d)" % (
+        x.dom(),
+        x.ran(),
+        Degree(x),
+    )
+    pperm_type.rank = pperm_type.crank
+    return ret
 
 
 # Untested
@@ -105,13 +158,6 @@ def Transformation(images):
     out = cppyy.gbl.libsemigroups.Transf(len(images)).type(images)
     # out.__class__.__repr__ = lambda self: cppyy.gbl.std.to_string(self)
     return out
-
-
-def PartialPerm(*args):
-    if len(args) == 1:
-        return cppyy.gbl.libsemigroups.PPerm(len(args[0])).type(args[0])
-    elif len(args) == 3:
-        return cppyy.gbl.libsemigroups.PPerm(args[2]).type(*args)
 
 
 def Permutation(images):

@@ -1,13 +1,11 @@
 import unittest, libsemigroups_cppyy
-from libsemigroups_cppyy import BooleanMat, degree, one
+from libsemigroups_cppyy import BooleanMat, Degree, One
 
 
 class TestBooleanMat(unittest.TestCase):
     def test_init(self):
         BooleanMat([[True, True], [False, False]])
-        BooleanMat(
-            [[False, True, True], [True, True, False], [False, False, False]]
-        )
+        BooleanMat([[False, True, True], [True, True, False], [False, False, False]])
         BooleanMat([[True]])
         BooleanMat([[True, False], [False, True]])
         BooleanMat([[1, 0], [0, 0]])
@@ -49,18 +47,10 @@ class TestBooleanMat(unittest.TestCase):
         self.assertLess(BooleanMat([[False]]), BooleanMat([[True]]))
         self.assertFalse(
             BooleanMat(
-                [
-                    [False, True, True],
-                    [True, True, False],
-                    [False, False, False],
-                ]
+                [[False, True, True], [True, True, False], [False, False, False]]
             )
             < BooleanMat(
-                [
-                    [False, True, False],
-                    [True, False, False],
-                    [False, False, True],
-                ]
+                [[False, True, False], [True, False, False], [False, False, True]]
             )
         )
         # self.assertLessEqual(BooleanMat([[False]]), BooleanMat([[False]]))
@@ -108,25 +98,13 @@ class TestBooleanMat(unittest.TestCase):
         (
             self.assertEqual(
                 BooleanMat(
-                    [
-                        [False, True, True],
-                        [True, True, False],
-                        [False, False, False],
-                    ]
+                    [[False, True, True], [True, True, False], [False, False, False]]
                 )
                 * BooleanMat(
-                    [
-                        [False, True, False],
-                        [True, False, False],
-                        [False, False, True],
-                    ]
+                    [[False, True, False], [True, False, False], [False, False, True]]
                 ),
                 BooleanMat(
-                    [
-                        [True, False, True],
-                        [True, True, False],
-                        [False, False, False],
-                    ]
+                    [[True, False, True], [True, True, False], [False, False, False]]
                 ),
             )
         )
@@ -162,12 +140,16 @@ class TestBooleanMat(unittest.TestCase):
         #     )
 
     def test_pow(self):
-        with self.assertRaises(TypeError):
-            BooleanMat([[True, False], [False, True]]) ** 30
-        with self.assertRaises(TypeError):
-            BooleanMat([[True, False], [True, True]]) ** 7
-        with self.assertRaises(TypeError):
-            BooleanMat([[True]]) ** 26
+        self.assertEqual(
+            BooleanMat([[True, False], [False, True]]) ** 30,
+            BooleanMat([[True, False], [False, True]]),
+        )
+        self.assertEqual(BooleanMat([[True]]) ** 26, BooleanMat([[True]]))
+
+        self.assertEqual(
+            BooleanMat([[True, False], [True, True]]) ** 7,
+            BooleanMat([[True, False], [True, True]]),
+        )
 
         with self.assertRaises(TypeError):
             BooleanMat([[True, False], [True, True]]) ** "i"
@@ -176,15 +158,13 @@ class TestBooleanMat(unittest.TestCase):
         with self.assertRaises(TypeError):
             BooleanMat([[True]]) ** BooleanMat([[True]])
 
-        with self.assertRaises(TypeError):
-            BooleanMat([[True, False], [True, True]]) ** 0
-        with self.assertRaises(TypeError):
+        self.assertEqual(
+            BooleanMat([[True, False], [True, True]]) ** 0,
+            One(BooleanMat([[True, False], [True, True]])),
+        )
+        with self.assertRaises(ValueError):
             BooleanMat(
-                [
-                    [False, True, True],
-                    [True, True, False],
-                    [False, False, False],
-                ]
+                [[False, True, True], [True, True, False], [False, False, False]]
             ) ** -7
 
     def test_dealloc(self):
@@ -195,41 +175,31 @@ class TestBooleanMat(unittest.TestCase):
         assert "B" not in globals()
 
     def test_degree(self):
-        self.assertEqual(degree(BooleanMat([[True, True], [False, False]])), 8)
+        self.assertEqual(Degree(BooleanMat([[True, True], [False, False]])), 8)
         self.assertEqual(
-            degree(
+            Degree(
                 BooleanMat(
-                    [
-                        [False, True, True],
-                        [True, True, False],
-                        [False, False, False],
-                    ]
+                    [[False, True, True], [True, True, False], [False, False, False]]
                 )
             ),
             8,
         )
-        self.assertEqual(degree(BooleanMat([[True]])), 8)
+        self.assertEqual(Degree(BooleanMat([[True]])), 8)
 
     def test_identity(self):
         self.assertEqual(
-            one(BooleanMat([[True, True], [False, False]])),
+            One(BooleanMat([[True, True], [False, False]])),
             libsemigroups_cppyy.BMat8.one(8),
         )
         self.assertEqual(
-            one(
+            One(
                 BooleanMat(
-                    [
-                        [False, True, True],
-                        [True, True, False],
-                        [False, False, False],
-                    ]
+                    [[False, True, True], [True, True, False], [False, False, False]]
                 )
             ),
             libsemigroups_cppyy.BMat8.one(8),
         )
-        self.assertEqual(
-            one(BooleanMat([[False]])), libsemigroups_cppyy.BMat8.one(8)
-        )
+        self.assertEqual(One(BooleanMat([[False]])), libsemigroups_cppyy.BMat8.one(8))
 
     def test_rows(self):
         self.assertEqual(
@@ -247,11 +217,7 @@ class TestBooleanMat(unittest.TestCase):
         )
         self.assertEqual(
             BooleanMat(
-                [
-                    [False, True, True],
-                    [True, True, False],
-                    [False, False, False],
-                ]
+                [[False, True, True], [True, True, False], [False, False, False]]
             ).rows(),
             [
                 [0, 1, 1, 0, 0, 0, 0, 0],
@@ -278,7 +244,7 @@ class TestBooleanMat(unittest.TestCase):
             ],
         )
         self.assertEqual(
-            one(BooleanMat([[0, 0], [0, 0]])).rows(),
+            One(BooleanMat([[0, 0], [0, 0]])).rows(),
             [
                 [1, 0, 0, 0, 0, 0, 0, 0],
                 [0, 1, 0, 0, 0, 0, 0, 0],
@@ -305,11 +271,7 @@ class TestBooleanMat(unittest.TestCase):
         )
         self.assertEqual(
             BooleanMat(
-                [
-                    [False, True, True],
-                    [True, True, False],
-                    [False, False, False],
-                ]
+                [[False, True, True], [True, True, False], [False, False, False]]
             ).__repr__(),
             "01100000\n"
             + "11000000\n"
