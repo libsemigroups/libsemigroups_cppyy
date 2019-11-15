@@ -32,7 +32,7 @@ class TestBipartition(unittest.TestCase):
                              Bipartition([1, -2], [2, -1]))
         self.assertGreaterEqual(Bipartition([1, -1, 3], [-3, 2, -2]),
                                 Bipartition([1, -2], [2, -1]))
-        self.assertFalse(Bipartition([1, -1, 3], [-3, 2, -2]) > 
+        self.assertFalse(Bipartition([1, -1, 3], [-3, 2, -2]) >
                          Bipartition([1, -1], [2, 3, -2], [-3]))
 
         with self.assertRaises(TypeError):
@@ -288,7 +288,7 @@ class TestBooleanMat(unittest.TestCase):
         with self.assertRaises(ValueError):
             (BooleanMat([[False, True, True],
                          [True, True, False],
-                         [False, False, False]]) * 
+                         [False, False, False]]) *
             BooleanMat([[True, False], [False, True]]))
 
     def test_pow(self):
@@ -402,17 +402,17 @@ class TestPartialPerm(unittest.TestCase):
     def test_richcmp(self):
         self.assertEqual(PartialPerm([1, 2, 3], [2, 1, 0], 5),
                          PartialPerm([1, 2, 3], [2, 1, 0], 5))
-        self.assertFalse(PartialPerm([1, 2, 3], [2, 1, 0], 5) != 
+        self.assertFalse(PartialPerm([1, 2, 3], [2, 1, 0], 5) !=
                          PartialPerm([1, 2, 3], [2, 1, 0], 5))
-        self.assertFalse(PartialPerm([1, 2, 4], [2, 1, 0], 5) == 
+        self.assertFalse(PartialPerm([1, 2, 4], [2, 1, 0], 5) ==
                           PartialPerm([1, 2, 3], [2, 3, 0], 5))
         self.assertNotEqual(PartialPerm([1, 2, 4], [2, 1, 0], 5),
                             PartialPerm([1, 2, 3], [2, 3, 0], 5))
-        self.assertFalse(PartialPerm([1, 2, 4], [2, 1, 0], 5) < 
+        self.assertFalse(PartialPerm([1, 2, 4], [2, 1, 0], 5) <
                           PartialPerm([1, 2, 3], [2, 3, 0], 5))
         self.assertLess(PartialPerm([1, 2], [0, 1], 3),
                         PartialPerm([2, 0], [0, 1], 3))
-        self.assertFalse(PartialPerm([1, 2], [0, 1], 3) > 
+        self.assertFalse(PartialPerm([1, 2], [0, 1], 3) >
                          PartialPerm([2, 0], [0, 1], 3))
         self.assertGreater(PartialPerm([1, 2], [1, 2], 3),
                            PartialPerm([1, 2], [0, 1], 3))
@@ -681,14 +681,14 @@ class TestPBR(unittest.TestCase):
 
         self.assertEqual(eval(PBR([[1, 2, 3, -1, -2, -3],
                                    [1, 2, 3, -1, -2, -3], [3, -2, -3]],
-                                  [[2], [3, -2, -3], 
+                                  [[2], [3, -2, -3],
                                    [1, 2, 3, -2, -3]]).__repr__()),
                          PBR([[1, 2, 3, -1, -2, -3],
                               [1, 2, 3, -1, -2, -3], [3, -2, -3]],
                               [[2], [3, -2, -3], [1, 2, 3, -2, -3]]))
-        self.assertEqual(eval(PBR([[1, -1]], [[1]]).__repr__()), 
+        self.assertEqual(eval(PBR([[1, -1]], [[1]]).__repr__()),
                               PBR([[1, -1]], [[1]]))
-        self.assertEqual(eval(PBR([[1, 2], [1, -1]], 
+        self.assertEqual(eval(PBR([[1, 2], [1, -1]],
                                   [[1], [2]]).identity().__repr__()),
                          PBR([[-1], [-2]], [[1], [2]]))
 

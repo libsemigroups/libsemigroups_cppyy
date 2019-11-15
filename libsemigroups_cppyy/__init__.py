@@ -39,14 +39,9 @@ cppyy.include("froidure-pin.hpp")
 from libsemigroups_cppyy.bmat import *
 from libsemigroups_cppyy.pperm import *
 from libsemigroups_cppyy.transf import *
+from libsemigroups_cppyy.perm import *
 
 # Untested
-
-
-def Permutation(images):
-    out = cppyy.gbl.libsemigroups.Perm(len(images)).type(images)
-    # out.__class__.__repr__ = lambda self: cppyy.gbl.std.to_string(self)
-    return out
 
 
 def FroidurePin(gens):
