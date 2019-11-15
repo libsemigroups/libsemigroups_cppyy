@@ -31,3 +31,10 @@ def Product(x, y):
     xy = One(x)
     cppyy.gbl.libsemigroups.Product(type(x))()(xy, x, y)
     return xy
+
+
+def ImageRightAction(res, pt, x):
+    """
+    TODO
+    """
+    cppyy.gbl.libsemigroups.ImageRightAction(type(x), type(pt))()(res, pt, x)

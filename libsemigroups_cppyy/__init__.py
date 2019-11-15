@@ -31,6 +31,7 @@ cppyy.load_library("libsemigroups")
 
 cppyy.cppdef("#define FMT_HEADER_ONLY")
 
+cppyy.include("action.hpp")
 cppyy.include("bmat8.hpp")
 cppyy.include("element.hpp")
 cppyy.include("element-helper.hpp")
@@ -40,6 +41,7 @@ cppyy.include("report.hpp")
 
 cppyy.include("include/python_element.h")
 
+from libsemigroups_cppyy.action import LeftAction, RightAction
 from libsemigroups_cppyy.bmat import *
 from libsemigroups_cppyy.pperm import *
 from libsemigroups_cppyy.transf import *
