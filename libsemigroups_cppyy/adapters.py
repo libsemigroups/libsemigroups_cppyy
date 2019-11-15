@@ -38,3 +38,10 @@ def ImageRightAction(res, pt, x):
     TODO
     """
     cppyy.gbl.libsemigroups.ImageRightAction(type(x), type(pt))()(res, pt, x)
+
+
+def ImageLefttAction(res, pt, x):
+    """
+    TODO
+    """
+    cppyy.gbl.libsemigroups.ImageRightAction(type(x), type(pt))()(res, pt, x)
