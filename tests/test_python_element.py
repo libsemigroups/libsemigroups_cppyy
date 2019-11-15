@@ -1,6 +1,7 @@
 import unittest
 from libsemigroups_cppyy import FroidurePin, PythonElement, ReportGuard
 
+
 class TestPythonElement(unittest.TestCase):
     def test_basic(self):
         ReportGuard(False)
@@ -12,7 +13,7 @@ class TestPythonElement(unittest.TestCase):
         self.assertTrue(s1 < s2)
 
         s = s2 * s3
-        self.assertEqual(s.get_value(), 6) # Fails with Sage Integers
+        self.assertEqual(s.get_value(), 6)  # Fails with Sage Integers
 
         S = FroidurePin([s1])
         self.assertEqual(S.size(), 1)
@@ -21,6 +22,7 @@ class TestPythonElement(unittest.TestCase):
         S.enumerate(100)
         self.assertEqual(S.current_size(), 8195)
         self.assertEqual(S.current_nr_rules(), 6)
+
 
 # import sys
 # if 'sage' in sys.modules:

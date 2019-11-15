@@ -35,22 +35,20 @@ cppyy.include("bmat8.hpp")
 cppyy.include("element.hpp")
 cppyy.include("element-helper.hpp")
 cppyy.include("froidure-pin.hpp")
+cppyy.include("report.hpp")
+
+cppyy.include("include/python_element.h")
 
 from libsemigroups_cppyy.bmat import *
 from libsemigroups_cppyy.pperm import *
 from libsemigroups_cppyy.transf import *
 from libsemigroups_cppyy.perm import *
+from libsemigroups_cppyy.froidure_pin import FroidurePin
+
+from cppyy.gbl import PythonElement
+from cppyy.gbl.libsemigroups import ReportGuard
 
 # Untested
-
-
-def FroidurePin(gens):
-    if gens:
-        types = {type(g) for g in gens}
-        if len(types) > 1:
-            raise ValueError("the generators are not all of the same type")
-        cls = types.pop()
-        return cppyy.gbl.libsemigroups.FroidurePin(cls)(gens)
 
 
 # from cppyy.gbl.libsemigroups import PBR, Bipartition, RWS
