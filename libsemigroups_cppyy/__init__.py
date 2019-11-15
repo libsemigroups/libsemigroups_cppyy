@@ -35,6 +35,7 @@ cppyy.include("bmat8.hpp")
 cppyy.include("element.hpp")
 cppyy.include("element-helper.hpp")
 cppyy.include("froidure-pin.hpp")
+cppyy.include("schreier-sims.hpp")
 cppyy.include("report.hpp")
 
 cppyy.include("include/python_element.h")
@@ -44,6 +45,7 @@ from libsemigroups_cppyy.pperm import *
 from libsemigroups_cppyy.transf import *
 from libsemigroups_cppyy.perm import *
 from libsemigroups_cppyy.froidure_pin import FroidurePin
+from libsemigroups_cppyy.schreier_sims import SchreierSims
 
 from cppyy.gbl import PythonElement
 from cppyy.gbl.libsemigroups import ReportGuard
