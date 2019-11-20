@@ -1,6 +1,7 @@
 # libsemigroups_cppyy
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/james-d-mitchell/libsemigroups_cppyy/master?filepath=demo.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/libsemigroups/libsemigroups_cppyy/master?filepath=demo.ipynb)
+[![Build Status](https://travis-ci.org/libsemigroups/libsemigroups_cppyy.svg?branch=master)](https://travis-ci.org/libsemigroups/libsemigroups_cppyy)
 
 libsemigroups_cppyy is an experimental package for using the C++ library
 [libsemigroups](https://github.com/james-d-mitche)
