@@ -23,8 +23,10 @@ from cppyy.gbl import std
 import libsemigroups_cppyy.detail
 from libsemigroups_cppyy.adapters import *
 
-cppyy.add_include_path("/usr/local/include/fmt")
-cppyy.add_include_path("/usr/local/include/libsemigroups")
+# cppyy.add_include_path("/usr/local/include/fmt")
+# cppyy.add_include_path("/usr/local/include/libsemigroups")
+cppyy.add_include_path("/Users/jdm/libsemigroups/include")
+cppyy.add_include_path("/Users/jdm/libsemigroups/extern/fmt-5.3.0/include")
 
 cppyy.load_library("libsemigroups")
 
@@ -47,6 +49,7 @@ from libsemigroups_cppyy.transf import *
 from libsemigroups_cppyy.perm import *
 from libsemigroups_cppyy.froidure_pin import FroidurePin
 from libsemigroups_cppyy.schreier_sims import SchreierSims
+from libsemigroups_cppyy.digraph import ActionDigraph
 
 from cppyy.gbl import PythonElement
 from cppyy.gbl.libsemigroups import ReportGuard
