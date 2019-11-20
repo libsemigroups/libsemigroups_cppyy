@@ -23,10 +23,8 @@ from cppyy.gbl import std
 import libsemigroups_cppyy.detail
 from libsemigroups_cppyy.adapters import *
 
-# cppyy.add_include_path("/usr/local/include/fmt")
-# cppyy.add_include_path("/usr/local/include/libsemigroups")
-cppyy.add_include_path("/Users/jdm/libsemigroups/include")
-cppyy.add_include_path("/Users/jdm/libsemigroups/extern/fmt-5.3.0/include")
+cppyy.add_include_path("/usr/local/include/fmt")
+cppyy.add_include_path("/usr/local/include/libsemigroups")
 
 cppyy.load_library("libsemigroups")
 
