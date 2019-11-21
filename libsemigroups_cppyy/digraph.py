@@ -8,6 +8,6 @@ for further details.
 
 import cppyy
 
+
 def ActionDigraph(int_type):
     return cppyy.gbl.libsemigroups.ActionDigraph(int_type)()
-

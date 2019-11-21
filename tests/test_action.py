@@ -38,7 +38,6 @@ class TestPartialPerm(unittest.TestCase):
         self.assertEqual(o.size(), 65536)
         self.assertEqual(o.digraph().nr_scc(), 17)
 
-
     def test_left(self):
         x = PartialPerm(range(16))
         o = LeftAction(type(x), type(x))

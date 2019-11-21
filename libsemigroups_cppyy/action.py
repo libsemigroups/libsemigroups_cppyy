@@ -19,9 +19,7 @@ def RightAction(element_type, point_type):
 
 
 def LeftAction(element_type, point_type):
-    ImageLeftAction = cppyy.gbl.libsemigroups.ImageLeftAction(
-        element_type, point_type
-    )
+    ImageLeftAction = cppyy.gbl.libsemigroups.ImageLeftAction(element_type, point_type)
     return cppyy.gbl.libsemigroups.LeftAction(
         element_type, point_type, ImageLeftAction
     )()
