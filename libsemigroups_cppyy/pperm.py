@@ -18,7 +18,9 @@ def PartialPerm(*args):
         if pperm_type.__module__ == 'cppyy.gbl.HPCombi':
             images = list(args[0])
             images += range(len(images), 16)
-        ret = pperm_type(images)
+            ret = pperm_type(images)
+        else:
+            ret = pperm_type(*args)
     elif len(args) == 3:
         if not isinstance(args[2], int):
             raise TypeError("the third parameter must be an integer")
