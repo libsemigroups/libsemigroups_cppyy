@@ -7,6 +7,8 @@ class TestPartialPerm(unittest.TestCase):
         PartialPerm([1, 0, 2], [2, 0, 1], 3)
         PartialPerm([1, 0], [0, 1], 5)
         PartialPerm([0, 3, 4, 5, 8, 20, 23373], [1, 2, 34, 23423, 233, 432, 26], 26260)
+        # Check for CPPYY issue workaround
+        self.assertEqual(PartialPerm([]), PartialPerm([0, 1]))
 
     def test_init_fail(self):
         with self.assertRaises(TypeError):

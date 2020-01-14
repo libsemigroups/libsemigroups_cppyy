@@ -187,19 +187,18 @@ class TestBooleanMat(unittest.TestCase):
         self.assertEqual(Degree(BooleanMat([[True]])), 8)
 
     def test_identity(self):
-        self.assertEqual(
-            One(BooleanMat([[True, True], [False, False]])),
-            libsemigroups_cppyy.BMat8.one(8),
-        )
+        A = BooleanMat([[True, True], [False, False]])
+        BM = type(A)
+        self.assertEqual(One(A), BM.one())
         self.assertEqual(
             One(
                 BooleanMat(
                     [[False, True, True], [True, True, False], [False, False, False]]
                 )
             ),
-            libsemigroups_cppyy.BMat8.one(8),
+            BM.one(8),
         )
-        self.assertEqual(One(BooleanMat([[False]])), libsemigroups_cppyy.BMat8.one(8))
+        self.assertEqual(One(BooleanMat([[False]])), BM.one(8))
 
     def test_rows(self):
         self.assertEqual(

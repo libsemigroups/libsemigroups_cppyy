@@ -14,7 +14,11 @@ from libsemigroups_cppyy.adapters import Degree, Product
 def PartialPerm(*args):
     if len(args) == 1:
         pperm_type = cppyy.gbl.libsemigroups.PPermHelper(len(args[0])).type
-        ret = pperm_type(args[0])
+        ## Workaround CPPYY issue
+        if pperm_type.__module__ == 'cppyy.gbl.HPCombi':
+            images = list(args[0])
+            images += range(len(images), 16)
+        ret = pperm_type(images)
     elif len(args) == 3:
         if not isinstance(args[2], int):
             raise TypeError("the third parameter must be an integer")
@@ -29,5 +33,5 @@ def PartialPerm(*args):
         x.ran(),
         Degree(x),
     )
-    pperm_type.rank = pperm_type.crank
+    pperm_type.rank = pperm_type.rank
     return ret

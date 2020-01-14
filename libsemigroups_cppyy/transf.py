@@ -20,4 +20,8 @@ def Transformation(images):
     transf_type.ran = lambda x: [
         x[y] if isinstance(x[y], int) else ord(x[y]) for y in range(Degree(x))
     ]
+    ## Workaround CPPYY issue
+    if transf_type.__module__ == 'cppyy.gbl.HPCombi':
+        images = list(images)
+        images += range(len(images), 16)
     return transf_type(images)
