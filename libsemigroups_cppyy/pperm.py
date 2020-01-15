@@ -35,5 +35,8 @@ def PartialPerm(*args):
         x.ran(),
         Degree(x),
     )
-    pperm_type.rank = pperm_type.rank
+    if pperm_type.__module__ == 'cppyy.gbl.HPCombi':
+        pperm_type.rank = pperm_type.rank
+    else:
+        pperm_type.rank = pperm_type.crank
     return ret
