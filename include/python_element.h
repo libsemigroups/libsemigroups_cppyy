@@ -1,7 +1,7 @@
 #include <Python.h>
 
-#include "adapters.hpp"
-#include "constants.hpp"
+#include "libsemigroups/adapters.hpp"
+#include "libsemigroups/constants.hpp"
 
 class PythonElement {
  private:

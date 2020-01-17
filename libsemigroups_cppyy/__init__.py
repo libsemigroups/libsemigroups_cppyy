@@ -21,21 +21,18 @@ from cppyy.gbl import std
 import libsemigroups_cppyy.detail
 from libsemigroups_cppyy.adapters import *
 
-cppyy.add_include_path("/usr/local/include/libsemigroups/fmt")
-cppyy.add_include_path("/usr/local/include/libsemigroups")
-
 cppyy.load_library("libsemigroups")
 
 cppyy.cppdef("#define FMT_HEADER_ONLY")
 cppyy.cppdef("#define HPCOMBI_CONSTEXPR_FUN_ARGS")
 
-cppyy.include("action.hpp")
-cppyy.include("bmat8.hpp")
-cppyy.include("element.hpp")
-cppyy.include("element-helper.hpp")
-cppyy.include("froidure-pin.hpp")
-cppyy.include("schreier-sims.hpp")
-cppyy.include("report.hpp")
+cppyy.include("libsemigroups/action.hpp")
+cppyy.include("libsemigroups/bmat8.hpp")
+cppyy.include("libsemigroups/element.hpp")
+cppyy.include("libsemigroups/element-helper.hpp")
+cppyy.include("libsemigroups/froidure-pin.hpp")
+cppyy.include("libsemigroups/schreier-sims.hpp")
+cppyy.include("libsemigroups/report.hpp")
 
 cppyy.include("include/python_element.h")
 
