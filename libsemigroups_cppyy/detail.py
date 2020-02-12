@@ -16,6 +16,8 @@ def unwrap(type_nm, cpp_mem_fn, unwrap_fn):
     actual = getattr(type_nm, actual)
     setattr(type_nm, cpp_mem_fn.__name__, lambda *args: unwrap_fn(actual(*args)))
 
+def unwrap_int(type_nm, cpp_mem_fn):
+    unwrap(type_nm, cpp_mem_fn, lambda x: x if isinstance(x, int) else ord(x))
 
 def generic_pow(self, n):
     message = "the argument (power) must be a non-negative integer"
