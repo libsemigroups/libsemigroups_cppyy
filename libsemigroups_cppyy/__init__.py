@@ -37,6 +37,7 @@ cppyy.cppdef("#define HPCOMBI_CONSTEXPR_FUN_ARGS")
 
 cppyy.include("libsemigroups/action.hpp")
 cppyy.include("libsemigroups/bmat8.hpp")
+cppyy.include("libsemigroups/cong-pair.hpp")
 cppyy.include("libsemigroups/element.hpp")
 cppyy.include("libsemigroups/element-helper.hpp")
 cppyy.include("libsemigroups/froidure-pin.hpp")
@@ -57,6 +58,7 @@ from libsemigroups_cppyy.froidure_pin import FroidurePin
 from libsemigroups_cppyy.schreier_sims import SchreierSims
 from libsemigroups_cppyy.digraph import ActionDigraph
 from libsemigroups_cppyy.knuth_bendix import KnuthBendix
+from libsemigroups_cppyy.cong_pair import CongruenceByPairs
 
 from cppyy.gbl import PythonElement
 from cppyy.gbl.libsemigroups import ReportGuard
