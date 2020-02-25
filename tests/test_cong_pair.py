@@ -1,6 +1,7 @@
 import unittest, libsemigroups_cppyy
 from libsemigroups_cppyy import CongruenceByPairs, Transformation, FroidurePin
 
+
 class TestCongruenceByPairs(unittest.TestCase):
     def test_congruence_by_pairs1(self):
         S = FroidurePin(Transformation([1, 0, 1]), Transformation([0, 0, 0]))

@@ -22,8 +22,10 @@ class TestFpSemigroup(unittest.TestCase):
         self.assertEqual(S.nr_rules(), 18)
         # self.assertEqual()
         self.assertTrue(
-            S.equal_to("abbbbbbbbbbbadddddddddddddddacccccccccccc",
-            "aaccccccccccccccccccccccccccc"),
+            S.equal_to(
+                "abbbbbbbbbbbadddddddddddddddacccccccccccc",
+                "aaccccccccccccccccccccccccccc",
+            )
         )
 
         self.assertFalse(S.equal_to("abbbbbbbbbbbadddddddddddddddacccccccccccc", "a"))

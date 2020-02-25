@@ -1,6 +1,7 @@
 import unittest, libsemigroups_cppyy
 from libsemigroups_cppyy import ActionDigraph
 
+
 class TestActionDigraph(unittest.TestCase):
     def test_action_digraph(self):
         D = ActionDigraph(4)

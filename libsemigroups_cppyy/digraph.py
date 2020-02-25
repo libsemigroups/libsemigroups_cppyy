@@ -19,7 +19,10 @@ def ActionDigraph(nr_verts):
     detail.unwrap_int(action_digraph_type, action_digraph_type.out_degree)
     detail.unwrap_int(action_digraph_type, action_digraph_type.nr_nodes)
     detail.unwrap_int(action_digraph_type, action_digraph_type.neighbor)
-    action_digraph_type.__repr__ = lambda x: "<ActionDigraph: %d nodes and %d edges>" % (x.nr_nodes(), x.nr_edges())
+    action_digraph_type.__repr__ = (
+        lambda x: "<ActionDigraph: %d nodes and %d edges>"
+        % (x.nr_nodes(), x.nr_edges())
+    )
     D = action_digraph_type()
     D.add_nodes(nr_verts)
     return D

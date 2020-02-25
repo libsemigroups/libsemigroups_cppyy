@@ -20,6 +20,5 @@ def FroidurePin(*args):
     if len(types) > 1:
         raise ValueError("the generators are not all of the same type")
     froidure_pin_type = cppyy.gbl.libsemigroups.FroidurePin(types.pop())
-    detail.unwrap(froidure_pin_type, froidure_pin_type.factorisation, lambda x:
-            list(x))
+    detail.unwrap(froidure_pin_type, froidure_pin_type.factorisation, lambda x: list(x))
     return froidure_pin_type(gens)

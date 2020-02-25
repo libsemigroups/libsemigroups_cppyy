@@ -19,13 +19,13 @@ import cppyy
 import os
 from cppyy.gbl import std
 
-path = os.environ['PATH'].split(':')
+path = os.environ["PATH"].split(":")
 for d in path:
-  if d.find('include') != -1:
-    try:
-      cppyy.add_include_path(d)
-    except:
-        pass
+    if d.find("include") != -1:
+        try:
+            cppyy.add_include_path(d)
+        except:
+            pass
 
 import libsemigroups_cppyy.detail
 from libsemigroups_cppyy.adapters import *
