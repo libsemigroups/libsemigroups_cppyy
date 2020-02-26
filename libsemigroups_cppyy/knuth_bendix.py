@@ -9,6 +9,17 @@ for further details.
 import cppyy
 import libsemigroups_cppyy.detail as detail
 
+cppyy.cppdef(
+    """
+    namespace libsemigroups_cppyy {
+    libsemigroups::FroidurePin<libsemigroups::detail::KBE>&
+    knuth_bendix_froidure_pin(std::shared_ptr<libsemigroups::FroidurePinBase> fp) {
+      return
+      static_cast<libsemigroups::FroidurePin<libsemigroups::detail::KBE>&>(*fp);
+    }
+    }"""
+)
+
 
 def KnuthBendix():
     kb_type = cppyy.gbl.libsemigroups.fpsemigroup.KnuthBendix
@@ -19,5 +30,10 @@ def KnuthBendix():
     detail.unwrap(kb_type, kb_type.active_rules, lambda x: [list(y) for y in list(x)])
     detail.unwrap(kb_type, kb_type.cbegin_rules, lambda x: iter(x))
     detail.unwrap(kb_type, kb_type.cend_rules, lambda x: iter(x))
+    detail.unwrap(
+        kb_type,
+        kb_type.froidure_pin,
+        cppyy.gbl.libsemigroups_cppyy.knuth_bendix_froidure_pin,
+    )
 
     return kb_type()

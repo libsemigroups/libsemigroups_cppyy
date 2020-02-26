@@ -1,9 +1,10 @@
 import unittest
 from libsemigroups_cppyy import KnuthBendix
+import cppyy.ll as ll
 
 
 class TestKnuth(unittest.TestCase):
-    def test_all(self):
+    def test_one(self):
         kb = KnuthBendix()
 
         kb.set_alphabet("abcd")
@@ -41,3 +42,13 @@ class TestKnuth(unittest.TestCase):
         )
 
         self.assertFalse(kb.equal_to("abbbbbbbbbbbadddddddddddddddacccccccccccc", "a"))
+
+    def test_two(self):
+        kb = KnuthBendix()
+        kb.set_alphabet("ab")
+        kb.add_rule("aaa", "a")
+        kb.add_rule("bbbb", "b")
+        kb.add_rule("ba", "aab")
+
+        self.assertEqual(kb.froidure_pin().size(), 11)
+        self.assertEqual(ll.static_cast["std::string"](kb.froidure_pin()[10]), "babb")
