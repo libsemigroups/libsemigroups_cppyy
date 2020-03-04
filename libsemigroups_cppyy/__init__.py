@@ -55,7 +55,7 @@ from libsemigroups_cppyy.pperm import *
 from libsemigroups_cppyy.transf import *
 from libsemigroups_cppyy.perm import *
 from libsemigroups_cppyy.fpsemi import FpSemigroup
-from libsemigroups_cppyy.froidure_pin import FroidurePin
+from libsemigroups_cppyy.froidure_pin import FroidurePin, right_cayley, left_cayley
 from libsemigroups_cppyy.schreier_sims import SchreierSims
 from libsemigroups_cppyy.digraph import ActionDigraph
 from libsemigroups_cppyy.knuth_bendix import KnuthBendix
