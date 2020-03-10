@@ -51,4 +51,10 @@ class TestKnuth(unittest.TestCase):
         kb.add_rule("ba", "aab")
 
         self.assertEqual(kb.froidure_pin().size(), 11)
-        self.assertEqual(ll.static_cast["std::string"](kb.froidure_pin()[10]), "babb")
+        # work around change in libsemigroups
+        try:
+            self.assertEqual(kb.froidure_pin()[10].string(kb), "babb")
+        except:
+            self.assertEqual(ll.static_cast["std::string"](kb.froidure_pin()[10]), "babb")
+
+
