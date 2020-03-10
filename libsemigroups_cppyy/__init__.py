@@ -30,7 +30,10 @@ for d in path:
 import libsemigroups_cppyy.detail
 from libsemigroups_cppyy.adapters import *
 
-cppyy.load_library("libsemigroups")
+try:
+    cppyy.load_library("libsemigroups.1")
+except RuntimeError as e:
+    cppyy.load_library("libsemigroups")
 
 cppyy.cppdef("#define FMT_HEADER_ONLY")
 cppyy.cppdef("#define HPCOMBI_CONSTEXPR_FUN_ARGS")
@@ -47,6 +50,7 @@ cppyy.include("libsemigroups/knuth-bendix.hpp")
 cppyy.include("libsemigroups/schreier-sims.hpp")
 cppyy.include("libsemigroups/report.hpp")
 
+cppyy.add_include_path(__file__[:__file__.rfind(os.path.sep)])
 cppyy.include("include/python_element.h")
 
 from libsemigroups_cppyy.action import LeftAction, RightAction
