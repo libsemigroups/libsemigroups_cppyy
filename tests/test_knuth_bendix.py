@@ -55,6 +55,6 @@ class TestKnuth(unittest.TestCase):
         try:
             self.assertEqual(kb.froidure_pin()[10].string(kb), "babb")
         except:
-            self.assertEqual(ll.static_cast["std::string"](kb.froidure_pin()[10]), "babb")
-
-
+            self.assertEqual(
+                ll.static_cast["std::string"](kb.froidure_pin()[10]), "babb"
+            )

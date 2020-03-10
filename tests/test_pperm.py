@@ -1,5 +1,6 @@
 import unittest, libsemigroups_cppyy
-from libsemigroups_cppyy import PartialPerm, Degree, One
+from libsemigroups_cppyy import PartialPerm
+from libsemigroups_cppyy.adapters import Degree, One
 
 
 class TestPartialPerm(unittest.TestCase):

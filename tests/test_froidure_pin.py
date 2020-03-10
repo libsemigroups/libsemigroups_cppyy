@@ -1,9 +1,10 @@
 import unittest
-from libsemigroups_cppyy import FroidurePin, Transformation, PartialPerm
+from libsemigroups_cppyy import FroidurePin, Transformation, PartialPerm, ReportGuard
 
 
 class TestFroidurePin(unittest.TestCase):
     def test_init(self):
+        ReportGuard(False)
         FroidurePin(Transformation([1, 0, 1]), Transformation([0, 0, 0]))
 
         with self.assertRaises(KeyError):

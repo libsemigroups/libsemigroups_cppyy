@@ -4,7 +4,7 @@ MAINTAINER Murray Whyte <mw231@st-andrews.ac.uk>
 
 RUN sudo apt-get install -y python3-pip vim
 
-RUN pip3 install cppyy tox
+RUN pip3 install cppyy tox pkgconfig
 
 RUN git clone https://github.com/libsemigroups/libsemigroups_cppyy
 

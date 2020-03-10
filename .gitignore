@@ -4,3 +4,5 @@ libsemigroups_cppyy.egg-info
 .tox
 cppyy
 *.html
+htmlcov
+.coverage

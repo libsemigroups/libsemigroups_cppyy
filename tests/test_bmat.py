@@ -1,5 +1,6 @@
 import unittest, libsemigroups_cppyy
-from libsemigroups_cppyy import BooleanMat, Degree, One
+from libsemigroups_cppyy import BooleanMat
+from libsemigroups_cppyy.adapters import Degree, One
 
 
 class TestBooleanMat(unittest.TestCase):

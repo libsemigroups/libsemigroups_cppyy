@@ -1,9 +1,10 @@
 import unittest, libsemigroups_cppyy
-from libsemigroups_cppyy import PartialPerm, LeftAction, RightAction
+from libsemigroups_cppyy import PartialPerm, LeftAction, RightAction, ReportGuard
 
 
 class TestPartialPerm(unittest.TestCase):
     def test_right(self):
+        ReportGuard(False)
         x = PartialPerm(range(16))
         o = RightAction(type(x), type(x))
         o.add_seed(x)
@@ -39,6 +40,7 @@ class TestPartialPerm(unittest.TestCase):
         self.assertEqual(o.digraph().nr_scc(), 17)
 
     def test_left(self):
+        ReportGuard(False)
         x = PartialPerm(range(16))
         o = LeftAction(type(x), type(x))
         o.add_seed(x)
