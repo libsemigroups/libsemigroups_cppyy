@@ -1,15 +1,15 @@
-FROM libsemigroups/libsemigroups-cppyy
+FROM libsemigroups/libsemigroups
 
-MAINTAINER J. D. Mitchell <jdm3@st-andrews.ac.uk>
+MAINTAINER Murray Whyte <mw231@st-andrews.ac.uk>
 
-COPY --chown=1000:1000 . $HOME/libsemigroups_cppyy
+RUN sudo apt-get install -y python3-pip vim
 
-RUN sudo pip3 install ipywidgets RISE
+RUN pip3 install cppyy tox
 
-RUN jupyter-nbextension install rise --user --py
+RUN git clone https://github.com/libsemigroups/libsemigroups_cppyy
 
-RUN jupyter-nbextension enable rise --user --py
+ENV PATH="/home/libsemigroups/.local/bin/:${PATH}"
 
-USER libsemigroups_cppyy
+ENV LD_LIBRARY_PATH="/usr/local/lib/:${LD_LIBRARY_PATH}"
 
-WORKDIR $HOME/libsemigroups_cppyy
+WORKDIR /home/libsemigroups/libsemigroups_cppyy
