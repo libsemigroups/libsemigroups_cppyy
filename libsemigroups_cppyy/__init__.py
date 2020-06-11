@@ -74,6 +74,11 @@ def compare_version_numbers(supplied, required):
 import cppyy
 import sys
 
+
+def cppyy_version():
+    return cppyy.__version__
+
+
 cppyy.gbl
 
 path = os.environ["PATH"].split(":")

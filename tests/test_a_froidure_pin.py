@@ -246,7 +246,7 @@ class TestFroidurePin(unittest.TestCase):
             S.word_to_element([0, 1, 0, 1]), Transformation([0, 3, 4, 1, 2])
         )
         self.assertEqual(S.word_to_pos([0, 1, 0, 1]), 15)
-        
+
         S = FroidurePin(Transformation([1, 0, 1]), Transformation([0, 0, 0]))
         S.run()
         if compare_version_numbers(libsemigroups_version(), "1.1.0"):
@@ -254,7 +254,6 @@ class TestFroidurePin(unittest.TestCase):
                 S.rules(),
                 [[[0, 1], [1]], [[1, 1], [1]], [[0, 0, 0], [0]], [[1, 0, 0], [1]]],
             )
-
 
     def test_prefixes_and_suffixes(self):
         S = FroidurePin(Transformation(list(range(1, 5)) + [0]))

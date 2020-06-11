@@ -11,7 +11,12 @@ setup(
     author="James D. Mitchell, Nicolas Thiéry",
     author_email="jdm3@st-andrews.ac.uk, Nicolas.Thiery@u-psud.fr",
     license="GPL3",
-    install_requires=["cppyy", "networkx", "pkgconfig", "packaging"],
+    install_requires=[
+        "cppyy>=1.6.1",
+        "networkx>=2.4",
+        "pkgconfig>=0.29.2",
+        "packaging>=20.4",
+    ],
     packages=find_packages(exclude=["tests"]),
     tests_require=["tox"],
     zip_safe=False,

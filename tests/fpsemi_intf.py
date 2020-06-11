@@ -12,6 +12,7 @@ from libsemigroups_cppyy import (
     microseconds,
     compare_version_numbers,
     libsemigroups_version,
+    cppyy_version,
     FpSemigroup,
 )
 
@@ -40,7 +41,6 @@ def check_validation(self, t):
             "unexpected exception raised for FpSemigroupInterface::validate_letter: "
             + e
         )
-
     with self.assertRaises(TypeError):
         x.validate_word("abc")
     try:
@@ -51,8 +51,12 @@ def check_validation(self, t):
             + e
         )
 
-    with self.assertRaises(TypeError):
-        x.validate_word([0, 1, 2])
+    if cppyy_version() <= "1.7.0":
+        with self.assertRaises(TypeError):
+            x.validate_word([0, 1, 2])
+    else:
+        with self.assertRaises(LibsemigroupsException):
+            x.validate_word([0, 1, 2])
     try:
         x.validate_word([0, 1, 0, 1])
     except Exception as e:
@@ -171,8 +175,13 @@ def check_operators(self, t):
     self.assertTrue(x.equal_to("bb", "B"))
     self.assertTrue(x.equal_to([1, 1], [2]))
 
-    with self.assertRaises(TypeError):
-        x.equal_to([1, 1], [5])
+    if cppyy_version() <= "1.7.0":
+        with self.assertRaises(TypeError):
+            x.equal_to([1, 1], [5])
+    else:
+        with self.assertRaises(LibsemigroupsException):
+            x.equal_to([1, 1], [5])
+
     with self.assertRaises(TypeError):
         x.equal_to("aa", "z")
 
