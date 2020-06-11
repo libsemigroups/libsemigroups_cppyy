@@ -51,11 +51,11 @@ def check_validation(self, t):
             + e
         )
 
-    if cppyy_version() <= "1.7.0":
-        with self.assertRaises(TypeError):
+    if compare_version_numbers(cppyy_version(), "1.7.1"):
+        with self.assertRaises(LibsemigroupsException):
             x.validate_word([0, 1, 2])
     else:
-        with self.assertRaises(LibsemigroupsException):
+        with self.assertRaises(TypeError):
             x.validate_word([0, 1, 2])
     try:
         x.validate_word([0, 1, 0, 1])
@@ -175,11 +175,11 @@ def check_operators(self, t):
     self.assertTrue(x.equal_to("bb", "B"))
     self.assertTrue(x.equal_to([1, 1], [2]))
 
-    if cppyy_version() <= "1.7.0":
-        with self.assertRaises(TypeError):
+    if compare_version_numbers(cppyy_version(), "1.7.1"):
+        with self.assertRaises(LibsemigroupsException):
             x.equal_to([1, 1], [5])
     else:
-        with self.assertRaises(LibsemigroupsException):
+        with self.assertRaises(TypeError):
             x.equal_to([1, 1], [5])
 
     with self.assertRaises(TypeError):
