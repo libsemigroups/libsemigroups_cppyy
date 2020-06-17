@@ -22,6 +22,7 @@ import cppyy.gbl.std as std
 
 class TestFpSemigroup(unittest.TestCase):
     def test_aaa_bug(self):
+        ReportGuard(False)
         S = FroidurePin(Transformation([1, 0, 1]), Transformation([0, 0, 0]))
         S.run()
         self.assertEqual(std.distance(S.cbegin(), S.cend()), 4)
@@ -63,6 +64,7 @@ class TestFpSemigroup(unittest.TestCase):
         self.assertFalse(S.equal_to("abbbbbbbbbbbadddddddddddddddacccccccccccc", "a"))
 
     def test_constructors(self):
+        ReportGuard(False)
         S = FroidurePin(Transformation([1, 0, 1]), Transformation([0, 0, 0]))
         T = FpSemigroup(S)
         self.assertFalse(T.has_froidure_pin())
@@ -104,6 +106,7 @@ class TestFpSemigroup(unittest.TestCase):
         check_running_and_state(self, FpSemigroup)
 
     def test_related_algorithms(self):
+        ReportGuard(False)
         S = FpSemigroup()
         S.set_alphabet("abcde")
         S.set_identity("e")
