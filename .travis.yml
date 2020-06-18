@@ -20,6 +20,7 @@ before_install:
 - ID=$(docker run --env EXTRA_PATH --env EXTRA_LD_LIBRARY_PATH --rm -i -t -d $CONTAINER_NAME)
 - docker cp . "$ID":/home/libsemigroups/libsemigroups_cppyy
 - docker exec -it "$ID" sudo chown 1000:1000 -R libsemigroups_cppyy
+- docker exec -it "$ID" sudo apt-get -y update
 - docker exec -it "$ID" sudo apt-get install -y python3-pip vim
 - docker exec -it "$ID" pip3 install cppyy tox pkgconfig
 
