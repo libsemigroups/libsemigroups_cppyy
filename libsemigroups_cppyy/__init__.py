@@ -18,10 +18,34 @@ must be somewhere on your computer where cppyy can load it).
 import os
 import pkgconfig
 from packaging import version
+import re
 
 
 def minimum_libsemigroups_version():
     return "1.0.7"
+
+
+def compare_version_numbers(supplied, required):
+    "Returns True if supplied >= required"
+
+    if isinstance(supplied, str) and isinstance(required, str):
+        return version.parse(supplied) >= version.parse(required)
+    else:
+        raise TypeError("expected a string, got a " + vers.__name__)
+
+
+def libsemigroups_version():
+    # the try-except is require pkgconfig v1.5.0 which is very recent, and
+    # hence not on conda at time of writing.
+    try:
+        v = pkgconfig.modversion("libsemigroups")
+    except AttributeError:
+        # this is just the guts of the modversion method in pkgconfig v1.5.1
+        v = pkgconfig.pkgconfig._query("libsemigroups", "--modversion")
+    if re.search("\d+\.\d+\.\d+-\d+-\w{7}", v):
+        # i.e. supplied is of the form: 1.1.0-6-g8b04c08
+        v = re.search("\d+\.\d\.+\d+-\d+", v).group(0)
+    return v
 
 
 if "PKG_CONFIG_PATH" not in os.environ:
@@ -42,33 +66,14 @@ if "/usr/local/lib/pkgconfig" not in pkg_config_path:
 
 if not pkgconfig.exists("libsemigroups"):
     raise ImportError("cannot locate libsemigroups library")
-elif pkgconfig.installed("libsemigroups", "< " + minimum_libsemigroups_version()):
-    # the following lines require pkgconfig v1.5.0 which is very recent,
-    # and hence not on conda at time of writing.
-    # raise ImportError(
-    #     "libsemigroups version {0} is required, found {1}".format(
-    #         minimum_libsemigroups_version(), libsemigroups_version()
-    #     ))
+elif not compare_version_numbers(
+    libsemigroups_version(), minimum_libsemigroups_version()
+):
     raise ImportError(
-        "libsemigroups version {0} is required".format(minimum_libsemigroups_version())
+        "libsemigroups version at least {0} is required, found {1}".format(
+            minimum_libsemigroups_version(), libsemigroups_version()
+        )
     )
-
-
-def libsemigroups_version():
-    # the try-except is require pkgconfig v1.5.0 which is very recent, and
-    # hence not on conda at time of writing.
-    try:
-        return pkgconfig.modversion("libsemigroups")
-    except AttributeError:
-        return minimum_libsemigroups_version()
-
-
-def compare_version_numbers(supplied, required):
-    "Returns True if supplied >= required"
-    if isinstance(supplied, str) and isinstance(required, str):
-        return version.parse(supplied) >= version.parse(required)
-    else:
-        raise TypeError("expected a string, got a " + vers.__name__)
 
 
 import cppyy
