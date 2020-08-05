@@ -141,6 +141,8 @@ from libsemigroups_cppyy.digraph import ActionDigraph
 from libsemigroups_cppyy.exception import LibsemigroupsCppyyException
 from libsemigroups_cppyy.fpsemi import FpSemigroup
 from libsemigroups_cppyy.froidure_pin import FroidurePin, right_cayley, left_cayley
+if compare_version_numbers(libsemigroups_version(), "1.3.0"):
+    from libsemigroups_cppyy.konieczny import Konieczny
 from libsemigroups_cppyy.knuth_bendix import KnuthBendix
 from libsemigroups_cppyy.perm import *
 from libsemigroups_cppyy.pperm import *
